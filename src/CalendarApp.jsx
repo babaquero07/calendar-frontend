@@ -1,3 +1,7 @@
 export const CalendarApp = () => {
-  return <div>CalendarApp</div>;
+  return (
+    <>
+      <h1>Calendar App</h1>
+    </>
+  );
 };
