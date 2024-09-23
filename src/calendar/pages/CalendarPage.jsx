@@ -4,7 +4,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { addHours } from "date-fns";
 import { localizer, getMessagesEs } from "../../helpers";
 
-import { Navbar } from "../";
+import { CalendarEvent, Navbar } from "../";
 
 const events = [
   {
@@ -26,7 +26,6 @@ export const CalendarPage = () => {
       backgroundColor: "#367CF7",
       borderRadius: "0px",
       opacity: 0.8,
-      display: "block",
       color: "white",
     };
 
@@ -48,6 +47,7 @@ export const CalendarPage = () => {
         endAccessor="end"
         style={{ height: "calc(100vh - 80px)" }}
         eventPropGetter={eventStyleGetter}
+        components={{ event: CalendarEvent }}
       />
     </>
   );
