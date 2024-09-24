@@ -11,12 +11,11 @@ export const useCalendarStore = () => {
   };
 
   const startSavingEvent = async (calendarEvent) => {
-    console.log("🚀 ~ startSavingEvent ~ calendarEvent:", calendarEvent);
     // TODO: Connect to backend
 
     if (calendarEvent._id) {
       // Update
-      dispatch(onUpdateActiveEvent(calendarEvent));
+      dispatch(onUpdateActiveEvent({ ...calendarEvent }));
     } else {
       // Create
       dispatch(onAddNewEvent({ ...calendarEvent, _id: new Date().getTime() }));
