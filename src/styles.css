@@ -40,7 +40,8 @@
 }
 
 /* Fabs */
-.fab {
+.fab,
+.fab-danger {
   border-radius: 100%;
   bottom: 25px;
   font-size: 30px;
@@ -48,4 +49,11 @@
   right: 25px;
   width: 80px;
   height: 80px;
+}
+
+.fab-danger {
+  width: 60px;
+  height: 60px;
+  right: 0;
+  left: 25px;
 }
