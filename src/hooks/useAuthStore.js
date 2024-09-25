@@ -27,7 +27,7 @@ export const useAuthStore = () => {
 
         setTimeout(() => {
           dispatch(clearErrorMessage());
-        }, 1000);
+        }, 2500);
 
         return;
       }
@@ -37,12 +37,13 @@ export const useAuthStore = () => {
       // Clear error message after 1 second
       setTimeout(() => {
         dispatch(clearErrorMessage());
-      }, 1000);
+      }, 2500);
     }
   };
 
   return {
     //* Properties
+    errorMessage,
 
     //* Methods
     startLogin,
