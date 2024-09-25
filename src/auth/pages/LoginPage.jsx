@@ -16,7 +16,7 @@ const registerFormFields = {
 };
 
 export const LoginPage = () => {
-  const { startLogin, errorMessage } = useAuthStore();
+  const { startLogin, startRegister, errorMessage } = useAuthStore();
 
   const {
     loginEmail,
@@ -51,6 +51,23 @@ export const LoginPage = () => {
 
   const registerSubmit = (e) => {
     e.preventDefault();
+
+    if (registerPassword !== registerPasswordRepeat) {
+      Swal.fire({
+        title: "Error",
+        text: "Las contraseñas deben de ser iguales",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+
+      return;
+    }
+
+    startRegister({
+      name: registerName,
+      email: registerEmail,
+      password: registerPassword,
+    });
   };
 
   return (

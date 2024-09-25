@@ -7,6 +7,37 @@ export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  const handleApiError = (error) => {
+    const { data } = error.response;
+    if (data) {
+      // Handle validation errors
+      const { errors } = data;
+      if (errors) {
+        let errorMessage = "";
+
+        errors.forEach((error) => (errorMessage += error.msg));
+        dispatch(onError(errorMessage));
+        return;
+      }
+
+      // Handle other errors
+      dispatch(onError(data.message));
+
+      setTimeout(() => {
+        dispatch(clearErrorMessage());
+      }, 2500);
+
+      return;
+    }
+
+    dispatch(onError(error.message));
+
+    // Clear error message after 1 second
+    setTimeout(() => {
+      dispatch(clearErrorMessage());
+    }, 2500);
+  };
+
   const startLogin = async ({ email, password }) => {
     dispatch(onChecking());
 
@@ -21,23 +52,23 @@ export const useAuthStore = () => {
 
       dispatch(onLogin({ name: data.name, uid: data.uid }));
     } catch (error) {
-      const { data } = error.response;
-      if (data) {
-        dispatch(onError(data.message));
+      handleApiError(error);
+    }
+  };
 
-        setTimeout(() => {
-          dispatch(clearErrorMessage());
-        }, 2500);
+  const startRegister = async ({ name, email, password }) => {
+    dispatch(onChecking());
 
-        return;
-      }
+    try {
+      const { data } = await calendarApi.post("/auth/register", {
+        name,
+        email,
+        password,
+      });
 
-      dispatch(onError(error.message));
-
-      // Clear error message after 1 second
-      setTimeout(() => {
-        dispatch(clearErrorMessage());
-      }, 2500);
+      dispatch(onLogin({ name: data.user.name, uid: data.user._id }));
+    } catch (error) {
+      handleApiError(error);
     }
   };
 
@@ -47,5 +78,6 @@ export const useAuthStore = () => {
 
     //* Methods
     startLogin,
+    startRegister,
   };
 };
