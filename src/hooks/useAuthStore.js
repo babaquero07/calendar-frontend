@@ -10,7 +10,7 @@ import {
 import calendarApi from "../api/calendarApi";
 
 export const useAuthStore = () => {
-  const { status, errorMessage } = useSelector((state) => state.auth);
+  const { status, user, errorMessage } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const handleApiError = (error) => {
@@ -96,8 +96,14 @@ export const useAuthStore = () => {
     }
   };
 
+  const startLogout = () => {
+    localStorage.clear();
+    dispatch(onLogout());
+  };
+
   return {
     //* Properties
+    user,
     status,
     errorMessage,
 
@@ -105,5 +111,6 @@ export const useAuthStore = () => {
     startLogin,
     startRegister,
     checkAuthToken,
+    startLogout,
   };
 };
