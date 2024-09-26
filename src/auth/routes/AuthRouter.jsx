@@ -1,8 +1,13 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useAuthStore } from "../../hooks";
 import { Navigate, Outlet } from "react-router-dom";
 
 export const AuthRouter = () => {
-  const { status } = useSelector((state) => state.auth);
+  const { checkAuthToken, status } = useAuthStore();
+
+  useEffect(() => {
+    checkAuthToken();
+  }, []);
 
   if (status === "authenticated") return <Navigate to="/" />;
 
