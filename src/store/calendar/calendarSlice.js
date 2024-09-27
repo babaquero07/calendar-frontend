@@ -18,12 +18,25 @@ const tempEvent = {
 const initialState = {
   events: [tempEvent],
   activeEvent: null,
+  isLoading: true,
 };
 
 export const calendarSlice = createSlice({
   name: "calendar",
   initialState,
   reducers: {
+    onLoadEvents: (state, { payload = [] }) => {
+      state.isLoading = false;
+      // Add only new events to the state
+      payload.forEach((event) => {
+        const exists = state.events.some(
+          (dbEvent) => dbEvent._id === event._id
+        );
+        if (!exists) {
+          state.events.push(event);
+        }
+      });
+    },
     onSetActiveEvent: (state, { payload }) => {
       state.activeEvent = payload;
     },
@@ -54,4 +67,5 @@ export const {
   onAddNewEvent,
   onUpdateActiveEvent,
   onDeleteEvent,
+  onLoadEvents,
 } = calendarSlice.actions;
