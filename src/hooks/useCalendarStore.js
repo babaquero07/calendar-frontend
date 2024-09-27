@@ -25,12 +25,8 @@ export const useCalendarStore = () => {
     try {
       // Update
       if (calendarEvent._id) {
-        const { data } = await calendarApi.put(
-          `/events/${calendarEvent._id}`,
-          calendarEvent
-        );
+        await calendarApi.put(`/events/${calendarEvent._id}`, calendarEvent);
 
-        console.log("🚀 ~ startSavingEvent ~ data:", data);
         dispatch(onUpdateActiveEvent({ ...calendarEvent, user }));
         return;
       }
@@ -40,7 +36,7 @@ export const useCalendarStore = () => {
       dispatch(onAddNewEvent({ ...data.event, user }));
     } catch (error) {
       console.error(error);
-      Swal.fire("Error", error.response.data.message, "error");
+      Swal.fire("Error", error.response.data.msg, "error");
     }
   };
 

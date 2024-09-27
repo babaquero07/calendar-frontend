@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useCalendarStore, useUiStore } from "../../hooks";
+import { useAuthStore, useCalendarStore, useUiStore } from "../../hooks";
 
 import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -15,6 +15,7 @@ import {
 } from "../";
 
 export const CalendarPage = () => {
+  const { user } = useAuthStore();
   const { openDateModal } = useUiStore();
   const { events, setActiveEvent, startLoadingEvents } = useCalendarStore();
 
@@ -23,8 +24,10 @@ export const CalendarPage = () => {
   );
 
   const eventStyleGetter = (event, start, end, isSelected) => {
+    const isUserEvent = user.uid === event.user._id;
+
     const style = {
-      backgroundColor: "#367CF7",
+      backgroundColor: isUserEvent ? "#367CF7" : "#465660",
       borderRadius: "0px",
       opacity: 0.8,
       color: "white",
